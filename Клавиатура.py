@@ -1,0 +1,82 @@
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+
+btnJob = KeyboardButton('Выбрать вакансию')
+greet_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(btnJob)
+
+btnVacantion1 = KeyboardButton('Автомобильный бизнес')
+btnVacantion2 = KeyboardButton('Административный персонал')
+btnVacantion3 = KeyboardButton('Банки, Инвестиции, Лизинг')
+btnVacantion4 = KeyboardButton('Безопасность')
+btnVacantion5 = KeyboardButton('Бухгалтерия, управленческий счёт, финансы предприятия')
+btnVacantion6 = KeyboardButton('Высший менеджмент')
+btnVacantion7 = KeyboardButton('Гос служба, некомерчиские организации')
+btnVacantion8 = KeyboardButton('Добыча сырья')
+btnVacantion9 = KeyboardButton('Домашний персонал')
+btnVacantion10 = KeyboardButton('Закупки')
+btnVacantion11 = KeyboardButton('Инсталяция и сервис')
+btnVacantion12 = KeyboardButton('Информационные технологии, интернет телеком')
+btnVacantion13 = KeyboardButton('Исскуство, развлечения, масс - медиа')
+btnVacantion14 = KeyboardButton('Консультирование')
+btnVacantion15 = KeyboardButton('Маркетинг, реклама, PR')
+btnVacantion16 = KeyboardButton('Медецина, фармацевтика')
+btnVacantion17 = KeyboardButton('Наука, образование')
+btnVacantion18 = KeyboardButton('Начало карьеры, студенты')
+btnVacantion19 = KeyboardButton('Продажи')
+btnVacantion20 = KeyboardButton('Производство, сельское хозяйство')
+btnVacantion21 = KeyboardButton('Рабочий персонал')
+btnVacantion22 = KeyboardButton('Спортивные клубы(фитнес и т.д)')
+btnVacantion23 = KeyboardButton('Страхование')
+btnVacantion24 = KeyboardButton('Строительство, недвижимость')
+btnVacantion25 = KeyboardButton('Транспорт, логистика')
+btnVacantion26 = KeyboardButton('Туризм, гостиницы, рестораны')
+btnVacantion27 = KeyboardButton('Треннинг управления персоналом')
+btnVacantion28 = KeyboardButton('Юристы')
+btnVacantion29 = KeyboardButton('Ввести вручную')
+vakan_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(btnVacantion1).add(btnVacantion3).row(btnVacantion4).add(btnVacantion5).row(btnVacantion6).add(btnVacantion7).row(btnVacantion8).add(btnVacantion9).row(btnVacantion10).add(btnVacantion11).row(btnVacantion12).add(btnVacantion13).row(btnVacantion14).add(btnVacantion15).row(btnVacantion16).add(btnVacantion17).row(btnVacantion18).add(btnVacantion19).row(btnVacantion20).add(btnVacantion21).row(btnVacantion22).add(btnVacantion23).row(btnVacantion24).add(btnVacantion25).row(btnVacantion26).add(btnVacantion27).row(btnVacantion28).add(btnVacantion2)
+
+filter1 = KeyboardButton('Не имеет значения')
+filter2 = KeyboardButton('От 1 года до 3 лет')
+filter3 = KeyboardButton('Нет опыта')
+filter4 = KeyboardButton('От 3 до 6 лет')
+filter5 = KeyboardButton('Более 6 лет')
+
+gret_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(filter1).row(filter2).add(filter3).row(filter4).add(filter5)
+
+filter6 = KeyboardButton('Не имеет значения')
+filter7 = KeyboardButton('Высшее')
+filter8 = KeyboardButton('Бакалавр')
+filter9 = KeyboardButton('Магистр')
+filter10 = KeyboardButton('Кандидат наук')
+filter11 = KeyboardButton('Доктор наук')
+filter12 = KeyboardButton('Незаконченое высшее')
+filter13 = KeyboardButton('Среднее')
+filter14 = KeyboardButton('Среднее специальное')
+
+gre_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(filter6).row(filter7).add(filter8).row(filter9).add(filter10).row(filter11).add(filter12).row(filter13).add(filter14)
+
+filter15 = KeyboardButton('Не имеет значения')
+filter16 = KeyboardButton('Мужской')
+filter17 = KeyboardButton('Женский')
+
+hh_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(filter15).row(filter16).add(filter17)
+
+Yes = KeyboardButton('Да')
+No = KeyboardButton('Нет')
+
+answer_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(Yes).add(No)
+
+filter18 = KeyboardButton('Вахтовый метод')
+filter19 = KeyboardButton('Удалённая работа')
+filter20 = KeyboardButton('Сменный график')
+filter21 = KeyboardButton('Гибкий график')
+filter22 = KeyboardButton('Полный день')
+
+grfk_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(filter18).row(filter19).row(filter20).row(filter21).add(filter22)
+
+filter23 = KeyboardButton('Волонтёрство')
+filter24 = KeyboardButton('Стажировка')
+filter25 = KeyboardButton('Проектная работа')
+filter26 = KeyboardButton('Частичная занятость')
+filter27 = KeyboardButton('Полная занятость')
+
+zants_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(filter23).row(filter24).add(filter25).row(filter26).add(filter27)
