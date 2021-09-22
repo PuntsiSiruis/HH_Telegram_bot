@@ -1,0 +1,59 @@
+from bs4 import BeautifulSoup
+import requests
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+}
+
+
+def professeion_get(specialization, experience='', gender='', employment=''):  # Получаем список резюме
+    format_url = f'https://hh.ru/search/resume?specialization={specialization}&experience={experience}&gender={gender}&employment={employment}&items_on_page=15'
+    list_url = {}
+    page_list_resume = requests.get(url=format_url, headers=headers)
+    soup_page_list = BeautifulSoup(page_list_resume.text, 'html.parser')
+    title = soup_page_list.find_all('a', class_='resume-search-item__name')
+    for i in title:
+        list_url.update({i.text: i['href']})
+    return list_url
+
+
+def resume_get(resume_url):  # Информация о резюме
+
+    list_about = {}
+    page_resume = requests.get(url=resume_url, headers=headers)
+    soup_page_resume = BeautifulSoup(page_resume.text, 'html.parser')
+    money = soup_page_resume.find('span', class_='resume-block__salary resume-block__title-text_salary')
+    exp = soup_page_resume.find('span', class_='resume-block__title-text resume-block__title-text_sub')
+    title = soup_page_resume.find('span', class_='resume-block__title-text')
+    n = soup_page_resume.find_all('div', class_='bloko-tag bloko-tag_inline bloko-tag_countable')
+    about = soup_page_resume.find(attrs={'data-qa': 'resume-block-skills-content'})
+    exp_all = soup_page_resume.find(attrs={'data-qa': 'resume-block-experience'})
+
+    if title == None:
+        title = "Не указано"
+    else:
+        title = title.text
+
+    if exp == None:
+        exp = "Не указано"
+    else:
+        exp = exp.text
+
+    if money == None:
+        money = "Не указано"
+    else:
+        money = money.text
+
+    if about == None:
+        about = "Не указано"
+    else:
+        about = about.text
+
+    list_about.update({
+        'Заголовок:': title,
+        'Желаемая зарплата': money,
+        'Опыт работы': exp,
+        'Обо мне': about})
+
+    return list_about
