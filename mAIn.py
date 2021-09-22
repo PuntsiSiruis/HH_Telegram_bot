@@ -1,6 +1,6 @@
 from aiogram import Bot, types
 from aiogram.dispatcher.filters import state
-
+from PqT5 import *
 import butnn
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
@@ -14,7 +14,20 @@ class filtersforproject(StatesGroup):
     same = State()
 
 bot = Bot(token='1969692948:AAED4IUekHGSxeLcdvNBMyc552FUtEeQF3s')
-
+list_filters = {
+    'Нет опыта':'noExperience',
+    '1 года до 3 лет':'between1And3',
+    'От 3 до 6 лет':'between3And6',
+    'Более 6':'moreThan6',
+    'Не имеет значения':'unknown',
+    'Мужской':'male',
+    'Женский':'female',
+    'Проектная работа':'project',
+    'Волонтёрство':'volunteer',
+    'Стажировка':'probation',
+    'Частичная занятость':'part',
+    'Полная занятость':'full'
+}
 dp = Dispatcher(bot, storage=MemoryStorage())
 print('РАБОТА ИДЁТ СТАБИЛЬНО')
 
@@ -42,18 +55,23 @@ async def main(message: types.Message):
             await state.update_data(tch_job=tch_job)
             await message.answer('Выберите 3 фильтр\nПол\n(-_-)...?', reply_markup=butnn.zants_kb)
             await filtersforproject.same.set()
-
+#iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
         @dp.message_handler(state=filtersforproject.same)
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            #professeion_get(1, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')), list_filters.get(data.get('same')))
+            a = professeion_get(8, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')), list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
         @dp.message_handler()
@@ -83,13 +101,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(7, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
         @dp.message_handler()
@@ -120,13 +144,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(4, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -159,13 +189,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(5, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -198,13 +234,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(2, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -237,13 +279,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(9, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -276,13 +324,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(16, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -315,13 +369,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(10, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -354,13 +414,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(27, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -393,13 +459,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(26, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -432,13 +504,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(25, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -471,13 +549,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(1, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -510,13 +594,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(1, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -549,13 +639,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(11, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -588,13 +684,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(12, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -627,13 +729,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(3, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -666,13 +774,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(13, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -705,13 +819,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(14, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -744,13 +864,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(15, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -783,13 +909,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(17, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -822,13 +954,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(18, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -861,13 +999,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(29, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -900,13 +1044,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(24, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -939,13 +1089,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(19, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -978,13 +1134,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(20, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -1017,13 +1179,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(21, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -1056,13 +1224,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(22, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -1095,13 +1269,19 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(6, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
@@ -1134,21 +1314,25 @@ async def main(message: types.Message):
         async def answer_q3(message: types.Message, state: FSMContext):
             same = message.text
             await state.update_data(same=same)
-            await message.answer(f'Заполнение фильтров окончено, всё ли верно\n(-_-)...?')
             data = await state.get_data()
             text = '''1 Фильтр : {hp_job}\n2 Фильтр : {tch_job}\n3 Фильтр : {same}'''.format(
                 hp_job=data.get('hp_job'),
                 tch_job=data.get('tch_job'),
                 same=data.get('same'),
             )
+            a = professeion_get(23, list_filters.get(data.get('hp_job')), list_filters.get(data.get('tch_job')),
+                                list_filters.get(data.get('same')))
+            for _ in a.values():
+                url = 'https://hh.ru' + _
+                b = resume_get(url)
+                await bot.send_message(message.from_user.id,
+                                       f'Заголовок : {b.get("Заголовок:")}\nЖелаемая заработная плата: {b.get("Желаемая зарплата")}\nОпыт работы: {b.get("Опыт работы")}\nОбо мне:{b.get("Обо мне")}\nСсылка на резюме:{url}')
             await state.reset_state(with_data=False)
             await message.answer(text=text)
 
         @dp.message_handler()
         async def e_else(message, state):
             data = await state.get_data()
-            await message.answer('Вы закончили выбор фильтров. 1 Фильтр {hp_job}'.format(data),
-                                 reply_markup=butnn.hh_kb)
 
 
 
